@@ -2,9 +2,14 @@ import os
 from os import error
 import pandas as pd
 from matplotlib import pyplot as plt
+import numpy as np
 #from term2web import *
 #/Users/david/Desktop/titanic/dataset.xls
 #python -m pip install <package>
+
+pd.set_option('display.max_rows', 500)
+pd.set_option('display.max_columns', 500)
+pd.set_option('display.width', 1000)
 
 def chooseFormat():
     choix=input("choix du format : (excel|json|csv) ")
@@ -33,19 +38,19 @@ def chooseFormat():
         return pd.DataFrame()
 
 def dropColumn(dataset):
-    firstChoice=input("Voulez-vous supprimer des colonnes ? (oui|non)")
+    firstChoice=input("Voulez-vous supprimer des colonnes ? (oui|non) ")
     if (firstChoice=="oui"):
         listRemove=[]
-        print(listRemove)
         listColumn=dataset.columns.tolist()
-        print(listColumn)
         for i in listColumn:
-            column=input("voulez vous supprimez la colonne "+i+" : (oui|non) ")
-            if (column=='oui'):
-               listRemove.append(i)
-            elif (column!='oui' and column!='non'):
-                print("mauvaise entrée")
-                return dropColumn(dataset)
+            while True:
+                column=input("voulez vous supprimez la colonne "+i+" : (oui|non) ")
+                if (column=='oui'):
+                    listRemove.append(i)
+                if(column!='oui' and column!='non'):
+                    print("mauvaise entrée")
+                if(column=='oui' or column=='non'):
+                    break  
         return dataset.drop(listRemove,axis=1)
     elif (firstChoice!='oui' and firstChoice!='non'):
         print("mauvaise entrée")
@@ -54,7 +59,7 @@ def dropColumn(dataset):
         return dataset
 
 
-def verify(dataset):
+def verifyEmptyLine(dataset):
     listColumnNotFull=[]
     listColumn=dataset.columns.tolist()
     listVerify= dataset.isnull().any() 
@@ -64,25 +69,15 @@ def verify(dataset):
              listColumnNotFull.append(listColumn[incr])
          incr+=1
     if ( len(listColumnNotFull)>0):
-        fisrtChoice=input("Il manque des valeurs dans votre dataframe, Voulez-vous le modifier? (oui|non)")
+        fisrtChoice=input("Il manque des valeurs dans votre dataframe, Voulez-vous supprimer les lignes avec des valeurs nulles ? (oui|non) ")
         if(fisrtChoice=="oui"):
-            secondChoice=input("Par suppression ou harmonisation ? (sup|har)")
-            if (secondChoice=="sup"):
-                return dropValues(dataset)
-            elif(secondChoice=="har"):
-                for b in listColumnNotFull:
-                    if (dataset[b].iloc[0].replace('.','',1).isdigit() == True):
-                        dataset=fullValues(dataset,b)
-                return dataset
-            else:
-                print("mauvaise entrée")
-                return verify(dataset)
+            return deleteEmptyValues(dataset)
         elif(fisrtChoice=="non"):
             return dataset
         else:
-           print("mauvaise entrée")
-           return verify(dataset)
-    return dataset
+            return verifyEmptyLine(dataset)
+    else:
+        return dataset
  
 
     
@@ -91,14 +86,24 @@ def verify(dataset):
 def fullValues(dataset,column):
     return dataset.fillna(dataset[column].mean())
 
-def dropValues(dataset):
+def deleteEmptyValues(dataset):
     return dataset.dropna(axis=0)
 
 def describeValues(dataset):
     return dataset.describe()
 
+def sampleValue(dataset):
+    return dataset.sample()
+
+def correlationColumn(dataset):
+    return dataset.corr()
+
 def dataframeInfos(dataset):
+    print("Nombre de lignes et colonnnes dans le dataframe : ",dataset.shape)
+    print("Nombre d'éléments dans le dataframe : ",dataset.size)
+    print("Dimension du dataframe : ",dataset.ndim)
     return dataset.info()
+
 
 
 def countValues(dataset):
@@ -114,7 +119,7 @@ def meanValue(dataset):
     column = input ("entrez la colonne qui vous intéresse : ")
     if(column not in listColumn):
         print("Nom de colonne incorrecte ")
-        return countValues(dataset)
+        return meanValue(dataset)
     return dataset[column].mean()
 
 def countValuesGraph(dataset):
@@ -137,42 +142,50 @@ def groupbyMean(dataset):
     listGroup=[]
     list=dataset.columns.tolist()
     for i in list:
-         column=input("voulez vous utiliser la colonne "+i+" : (oui|non)")
-         if (column=='oui'):
+        while True:
+            column=input("voulez vous utiliser la colonne "+i+" : (oui|non) ")
+            if (column=='oui'):
                listGroup.append(i)
-         elif(column!='oui' and column!='non'):
-             print("mauvaise entréee")
-             return groupbyMean(dataset)
+            if (column!='oui' and column!='non'):
+                 print("mauvaise entréee")
+            if (column=="oui" or column=="non"):
+                break
     return dataset.groupby(listGroup).mean()
            
 
 
 def presentation(dataset):
     print("Les actions possibles : ")
-    print("1. Afficher le Dataframe")
-    print("2. Afficher les réptitions d\'une colonne")
-    print("3. Afficher les moyennes d\'une colonne")
-    print("4. Obtenir un graphique")
-    print("5. Obtenir un histographe")
-    print("6. Analyse par groupe de la moyenne")
-    print("7. Afficher les informations du dataframe")
-    choix = input('Entrez votre choix: (1|2|3|4|5|6|7) ')
+    print("1. Afficher les données statistiques du Dataframe")
+    print("2. Obtenir la corrélation entre colonne : ")
+    print("3. Afficher les réptitions d\'une colonne")
+    print("4. Afficher la moyenne d\'une colonne")
+    print("5. Obtenir un graphique")
+    print("6. Obtenir un histographe")
+    print("7. Analyse statisque par regroupement de colonne ")
+    print("8. Obtenir un échantillon du dataframe ")
+    print("9. Afficher les informations du dataframe")
+    choix = input('Entrez votre choix: (1|2|3|4|5|6|7|8|9) ')
     if (choix=='1'):
         print(describeValues(dataset))
-    elif (choix=='2'):
-        print(countValues(dataset))
+    elif(choix=='2'):
+        print(correlationColumn(dataset))
     elif (choix=='3'):
-        print(meanValue(dataset))
+        print(countValues(dataset))
     elif (choix=='4'):
+        print(meanValue(dataset))
+    elif (choix=='5'):
         print(countValuesGraph(dataset))
         print(plt.show())
-    elif (choix=='5'):
+    elif (choix=='6'):
         print(valuesHist(dataset))
         print(plt.show())
-    elif (choix=='6'):
-        print(groupbyMean(dataset))   
     elif (choix=='7'):
-        print(dataframeInfos(dataset)) 
+        print(groupbyMean(dataset))   
+    elif (choix=='8'):
+        print(sampleValue(dataset)) 
+    elif (choix=='9'):
+        print(dataframeInfos(dataset))
     else:
         print ("mauvaise entrée")
         presentation(dataset)
@@ -187,18 +200,18 @@ def lancerLeProgramme():
         lancerLeProgramme() 
     else:
         dataset=dropColumn(dataset)
-        #dataset=verify(dataset)
-        action= "oui"
+        dataset=verifyEmptyLine(dataset)
         print(dataset.head())
-        while action=="oui":
+        while True:
            action= input("Voulez-vous réaliser une action ? (oui|non) ")
            if (action=="oui"):
              presentation(dataset)
            elif(action=="non"):
                print("Bye Bye")
+               break
            else:
                print("mauvaise entrée")
-               presentation(dataset)
+               
 
 
     
