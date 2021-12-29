@@ -31,15 +31,15 @@ you can use the application from :
 
 ## Possible actions 
 
-1. View statistical data from the Dataframe ( refers to the pandas function : dataframe.describe() )
-2. Get the correlation between columns ( refers to the pandas function : dataframe.corr() )
-3. Display the count values of a column ( refers to the pandas function dataframe[column].value_counts() )
-4. Display the average of a column ( refers to the pandas function : dataframe[column].mean() )
-5. Get a graph ( refers to the pandas function : dataframe[column].value_counts().plot.bar() )
-6. Get a histograph ( refers to the pandas function : dataframe[column].hist() )
-7. Statistical analysis by column grouping ( refers to the pandas function 
-8. Get a sample of the dataframe ( refers to the pandas function : dataframe.sample() )
-9. View dataframe information ( refers to the pandas functions : dataframe.shape, dataframe.size, dataframe.ndim , dataframe.info() ) 
+1. View statistical data from the Dataframe ( refers to the pandas function : ``dataframe.describe()`` )
+2. Get the correlation between columns ( refers to the pandas function : ``dataframe.corr()`` )
+3. Display the count values of a column ( refers to the pandas function ``dataframe[column].value_counts()`` )
+4. Display the average of a column ( refers to the pandas function : ``dataframe[column].mean()`` )
+5. Get a graph ( refers to the pandas function : ``dataframe[column].value_counts().plot.bar()`` )
+6. Get a histograph ( refers to the pandas function : ``dataframe[column].hist()`` )
+7. Statistical analysis by column grouping ( refers to the pandas function : ``dataframe.groupby(ListColumns).mean()`` )
+8. Get a sample of the dataframe ( refers to the pandas function : ``dataframe.sample()`` )
+9. View dataframe information ( refers to the pandas functions : ``dataframe.shape, dataframe.size, dataframe.ndim , dataframe.info()`` ) 
 
 ## Demonstration
 
