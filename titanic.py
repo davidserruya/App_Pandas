@@ -3,7 +3,6 @@ from os import error
 import pandas as pd
 from matplotlib import pyplot as plt
 import numpy as np
-#from term2web import *
 #/Users/david/Desktop/titanic/dataset.xls
 #python -m pip install <package>
 
