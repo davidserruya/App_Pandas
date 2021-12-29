@@ -8,13 +8,17 @@ Titanic_Pandas is an application developed in python that takes as input an exce
 
 it is necessary to have on its station : 
 
-- 
-- 
-- 
+- python
 
 ### Installation
 
-Les étapes pour installer votre programme....
+executes the following commands:
+
+- ``python -m pip install os``
+- ``python -m pip install pandas``
+- ``python -m pip install term2web ``
+
+then you have to clone the repository : git clone 
 
 Dites ce qu'il faut faire...
 
