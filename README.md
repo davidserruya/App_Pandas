@@ -1,8 +1,8 @@
-# Titanic_Pandas
+# App_Pandas
 
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)  [![forthebadge](http://forthebadge.com/images/badges/powered-by-electricity.svg)](http://forthebadge.com)
 
-Titanic_Pandas is an application developed in python that takes as input an excel, json or csv file and allows to perform the main pandas functions from a terminal or a browser.
+App_Pandas is an application developed in python that takes as input an excel, json or csv file and allows to perform the main pandas functions from a terminal or a browser.
 
 ### Prerequisites
 
