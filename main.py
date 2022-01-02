@@ -7,7 +7,8 @@ pd.set_option('display.width', 1000)
 from matplotlib import pyplot as plt
 import numpy as np
 from fonctions import fullValues,deleteEmptyValues,describeValues,sampleValue,correlationColumn,dataframeInfos,countValues,meanValue,countValuesGraph,valuesHist,groupbyMean
-
+#python library that allows to display a terminal on a web page
+from term2web import *
 
 #function that allows the user to choose the format of his file and transform it into a dataframe
 def chooseFormat():
