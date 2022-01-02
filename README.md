@@ -43,7 +43,7 @@ you can use the application from :
 
 ## Demonstration
 
-In this video we will use the _dataset.xls_ file present in the repository : 
+In this video we will use the _titanic.xls_ and _titanic.csv_ files present in the repository : 
 
 ## Authors
 
