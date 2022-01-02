@@ -1,15 +1,15 @@
 import os
 from os import error
 import pandas as pd
-from matplotlib import pyplot as plt
-import numpy as np
-#/Users/david/Desktop/titanic/dataset.xls
-#python -m pip install <package>
-
 pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
+from matplotlib import pyplot as plt
+import numpy as np
+from fonctions import fullValues,deleteEmptyValues,describeValues,sampleValue,correlationColumn,dataframeInfos,countValues,meanValue,countValuesGraph,valuesHist,groupbyMean
 
+
+#function that allows the user to choose the format of his file and transform it into a dataframe
 def chooseFormat():
     choix=input("choix du format : (excel|json|csv) ")
     if (choix=="excel"):
@@ -36,6 +36,8 @@ def chooseFormat():
     else:
         return pd.DataFrame()
 
+
+#function that allows to delete columns that the user considers uninteresting
 def dropColumn(dataset):
     firstChoice=input("Voulez-vous supprimer des colonnes ? (oui|non) ")
     if (firstChoice=="oui"):
@@ -58,6 +60,7 @@ def dropColumn(dataset):
         return dataset
 
 
+#function that checks the dataframe for null values and removes null lines from the dataframe
 def verifyEmptyLine(dataset):
     listColumnNotFull=[]
     listColumn=dataset.columns.tolist()
@@ -79,80 +82,7 @@ def verifyEmptyLine(dataset):
         return dataset
  
 
-    
-              
-     
-def fullValues(dataset,column):
-    return dataset.fillna(dataset[column].mean())
-
-def deleteEmptyValues(dataset):
-    return dataset.dropna(axis=0)
-
-def describeValues(dataset):
-    return dataset.describe()
-
-def sampleValue(dataset):
-    return dataset.sample()
-
-def correlationColumn(dataset):
-    return dataset.corr()
-
-def dataframeInfos(dataset):
-    print("Nombre de lignes et colonnnes dans le dataframe : ",dataset.shape)
-    print("Nombre d'éléments dans le dataframe : ",dataset.size)
-    print("Dimension du dataframe : ",dataset.ndim)
-    return dataset.info()
-
-
-
-def countValues(dataset):
-    listColumn=dataset.columns.tolist()
-    column = input ("entrez la colonne qui vous intéresse : ")
-    if(column not in listColumn):
-        print("Nom de colonne incorrecte ")
-        return countValues(dataset)
-    return dataset[column].value_counts()
-
-def meanValue(dataset):
-    listColumn=dataset.columns.tolist()
-    column = input ("entrez la colonne qui vous intéresse : ")
-    if(column not in listColumn):
-        print("Nom de colonne incorrecte ")
-        return meanValue(dataset)
-    return dataset[column].mean()
-
-def countValuesGraph(dataset):
-    listColumn=dataset.columns.tolist()
-    column = input ("entrez la colonne qui vous intéresse : ")
-    if(column not in listColumn):
-        print("Nom de colonne incorrecte ")
-        return countValuesGraph(dataset)
-    return dataset[column].value_counts().plot.bar()
-
-def valuesHist(dataset):
-    listColumn=dataset.columns.tolist()
-    column = input ("entrez la colonne qui vous intéresse : ")
-    if(column not in listColumn):
-        print("Nom de colonne incorrecte ")
-        return valuesHist(dataset)
-    return dataset[column].hist()
-
-def groupbyMean(dataset):
-    listGroup=[]
-    list=dataset.columns.tolist()
-    for i in list:
-        while True:
-            column=input("voulez vous utiliser la colonne "+i+" : (oui|non) ")
-            if (column=='oui'):
-               listGroup.append(i)
-            if (column!='oui' and column!='non'):
-                 print("mauvaise entréee")
-            if (column=="oui" or column=="non"):
-                break
-    return dataset.groupby(listGroup).mean()
-           
-
-
+#function to select an action performed on the dataframe
 def presentation(dataset):
     print("Les actions possibles : ")
     print("1. Afficher les données statistiques du Dataframe")
@@ -190,17 +120,16 @@ def presentation(dataset):
         presentation(dataset)
 
     
-
-def lancerLeProgramme():
+#function that starts the program
+def runProgram():
     print ("Bienvenue")
     dataset= chooseFormat()
     if dataset.empty:
         print("format non supporté")
-        lancerLeProgramme() 
+        runProgram() 
     else:
         dataset=dropColumn(dataset)
         dataset=verifyEmptyLine(dataset)
-        print(dataset.head())
         while True:
            action= input("Voulez-vous réaliser une action ? (oui|non) ")
            if (action=="oui"):
@@ -211,8 +140,6 @@ def lancerLeProgramme():
            else:
                print("mauvaise entrée")
                
-
-
     
 
-lancerLeProgramme()   
+runProgram()   
