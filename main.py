@@ -6,7 +6,7 @@ pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 from matplotlib import pyplot as plt
 import numpy as np
-from fonctions import fullValues,deleteEmptyValues,describeValues,sampleValue,correlationColumn,dataframeInfos,countValues,meanValue,countValuesGraph,valuesHist,groupbyMean
+from functions import fullValues,deleteEmptyValues,describeValues,sampleValue,correlationColumn,dataframeInfos,countValues,meanValue,countValuesGraph,valuesHist,groupbyMean
 
 
 #function that allows the user to choose the format of his file and transform it into a dataframe
